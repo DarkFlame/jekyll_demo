@@ -1,44 +1,20 @@
 ---
-layout: index
-title: "强学力行、顺势而为"
+layout: default
 ---
 
-<!-- Loop output paged posts -->
-{% for post in paginator.posts %}
-<h2>
-  <a href="{{ post.url }}">
-    {{ post.title }}
-  </a> 
-  <div class="post-date">
-	<span class="glyphicon glyphicon-time"></span>
-	{{ post.date | date:"%Y-%m-%d" }}
-  </div>
-</h2>
-<hr>
-{{ post.excerpt }}
-	<p><h3><a href="{{ post.url }}">阅读全文 &raquo;</a></h3></p>
-<hr>
-{% endfor %}
+<div class="main-post-list hidden">
 
-<!-- Pager indicator -->
-<ul class="pager">
-  {% if paginator.previous_page %} {% if paginator.previous_page == 1 %}
-  <li class="previous">
-    <a href="/">
-      &larr; 上一页
-    </a>
-  </li>
-  {% else %}
-  <li class="previous">
-    <a href="/posts/page{{ paginator.previous_page }}/index.html">
-      &larr; 上一页
-    </a>
-  </li>
-  {% endif %} {% endif %} {% if paginator.next_page %}
-  <li class="next">
-    <a href="/posts/page{{ paginator.next_page }}/index.html">
-      下一页 &rarr;
-    </a>
-  </li>
-  {% endif %}
-</ul>
+  <ol class="post-list">
+    {% for post in paginator.posts %}
+    <li>
+      <h2 class="post-list__post-title post-title"><a href="{{ post.url }}" title="访问 {{ post.title }}">{{ post.title }}</a></h2>
+      <p class="excerpt">{{ post.content | strip_html | strip_newlines | truncate: 250 }}&hellip;</p>
+      <div class="post-list__meta"><time datetime="{{post.date | date: date_to_xmlschema}}" class="post-list__meta--date date">{{ post.date | date: "%F"}}</time> &#8226; <span class="post-list__meta--tags tags">{{ post.tags }}</span><a class="btn-border-small" href={{ post.url }}>继续阅读</a></div>
+      <hr class="post-list__divider" />
+    </li>
+    {% endfor %}
+  </ol>
+
+  {% include pagination.html %}
+
+</div>
